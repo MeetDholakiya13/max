@@ -227,18 +227,13 @@ export default function Login() {
       return false;
     }
   };
-  useEffect(() => {
-    if (localStorage.getItem("Token")) {
-      // setCookie("name", user, { path: "/dashboard" });
-      navigate("/movie");
-    }
-  }, []);
 
   return (
     <div className="Login">
       <Header />
       <Form>
         <Form.Group size="lg" controlId="email">
+          {console.log("Hello login")}
           <h1>Login.....</h1>
           <Form.Label>Email</Form.Label>
           <Form.Control
@@ -274,6 +269,7 @@ export default function Login() {
           Login
         </Button>
       </Form>
+      <Link to="/forgotpassword">ForgotPassword</Link>
     </div>
   );
 }

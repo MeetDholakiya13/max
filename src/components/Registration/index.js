@@ -78,7 +78,7 @@ export default function Login() {
 
           // localStorage.setItem("Token", a.user.accessToken);
           // localStorage.setItem("user", JSON.stringify(a));
-          navigate("/movie");
+          navigate("/");
         } catch (err) {
           console.log(
             "error=========================>",
@@ -230,12 +230,6 @@ export default function Login() {
       return false;
     }
   };
-  useEffect(() => {
-    if (localStorage.getItem("Token")) {
-      // setCookie("name", user, { path: "/dashboard" });
-      navigate("/movie");
-    }
-  }, []);
 
   return (
     <div className="Register">
