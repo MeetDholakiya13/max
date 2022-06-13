@@ -15,6 +15,8 @@ import { auth, logout } from "./firebase";
 // import { , ProtectedRoute } from './Helpers/routes';
 
 // import ProtectedRoute from "./components/ProtectedRoute";
+import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const PrivateRoute1 = (props) => {
   // alert(auth);
@@ -23,7 +25,17 @@ const PrivateRoute1 = (props) => {
   if (!auth?.currentUser) {
     return props.children;
   } else {
-    alert("you are alredy login");
+    toast.warn("you are alredy login", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    // alert("you are alredy login");
+
     return <Navigate to="/movie" />;
   }
 };
@@ -38,13 +50,36 @@ function App() {
     // alert(auth);
     const token = localStorage.getItem("Token");
     // console.log("auth====>", auth);
-    if (auth?.currentUser?.emailVerified) {
-      return props.children;
+    if (auth?.currentUser) {
+      if (auth?.currentUser?.emailVerified) {
+        return props.children;
+      } else {
+        toast.warn("Veryfi your Email", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+        // alert("Veryfi your Email");
+        logout();
+        localStorage.removeItem("Token");
+        localStorage.removeItem("user");
+        return <Navigate to="/" />;
+      }
     } else {
-      alert("Veryfi your Email");
-      logout();
-      localStorage.removeItem("Token");
-      localStorage.removeItem("user");
+      toast.warn("Login First", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return <Navigate to="/" />;
     }
   };
@@ -98,6 +133,19 @@ function App() {
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      {/* Same as */}
+      <ToastContainer />
     </div>
   );
 }

@@ -9,6 +9,8 @@ import { auth, logInWithEmailAndPassword, logout } from "../../firebase";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { errorHandler } from "../../utils/databaseErrorHandler";
 import { sendEmailVerification, getAuth } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   // if(email.length)
@@ -76,6 +78,15 @@ export default function Login() {
 
           await sendEmailVerification(auth.currentUser);
           logout(auth.currentUser);
+          toast.success("Registration successfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
           // localStorage.setItem("Token", a.user.accessToken);
           // localStorage.setItem("user", JSON.stringify(a));
           navigate("/");
@@ -232,45 +243,60 @@ export default function Login() {
   };
 
   return (
-    <div className="Register">
-      <Header />
-      <Form>
-        <Form.Group size="lg" controlId="email">
-          <h1>Register.....</h1>
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            autoFocus
-            type="text"
-            // value={email}
-            onChange={({ target }) => handleOnChange("email", target.value)}
-          />
-          {err?.field === "email" && <h3>{err?.value}</h3>}
-        </Form.Group>
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            // value={password}
-            onChange={({ target }) => handleOnChange("password", target?.value)}
-          />
-          {/* <h3> {errpassword}</h3> */}
-          {err?.field === "password" && <h3>{err?.value}</h3>}
-        </Form.Group>
-        {/* <h1>{err}</h1> */}
-        {error && error?.message ? (
-          <p className="text-danger">{error?.message}</p>
-        ) : (
-          ""
-        )}
-        <Button
-          block="true"
-          size="lg"
-          type="button"
-          onClick={(e) => handleSubmit(e)}
-        >
-          Registration
-        </Button>
-      </Form>
-    </div>
+    <>
+      <div className="Register">
+        <Header />
+        <Form>
+          <Form.Group size="lg" controlId="email">
+            <h1>Register.....</h1>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              autoFocus
+              type="text"
+              // value={email}
+              onChange={({ target }) => handleOnChange("email", target.value)}
+            />
+            {err?.field === "email" && <h3>{err?.value}</h3>}
+          </Form.Group>
+          <Form.Group size="lg" controlId="password">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              // value={password}
+              onChange={({ target }) =>
+                handleOnChange("password", target?.value)
+              }
+            />
+            {/* <h3> {errpassword}</h3> */}
+            {err?.field === "password" && <h3>{err?.value}</h3>}
+          </Form.Group>
+          {/* <h1>{err}</h1> */}
+          {error && error?.message ? (
+            <p className="text-danger">{error?.message}</p>
+          ) : (
+            ""
+          )}
+          <Button
+            block="true"
+            size="lg"
+            type="button"
+            onClick={(e) => handleSubmit(e)}
+          >
+            Registration
+          </Button>
+        </Form>
+      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
   );
 }

@@ -87,6 +87,9 @@ export const Movie = () => {
 
   return (
     <>
+      <button type="button" onClick={handleSubmit} className="btn btn-primary">
+        signOut
+      </button>
       <h1>Welcome {email}</h1>
       {/* //aavi rite na chale aa upar define karavanu hoy */}
       {data.map((item, index) => {
@@ -105,9 +108,6 @@ export const Movie = () => {
       })}
       <button type="button" onClick={more} className="btn btn-primary">
         Load More...
-      </button>
-      <button type="button" onClick={handleSubmit} className="btn btn-primary">
-        signOut
       </button>
     </>
   );

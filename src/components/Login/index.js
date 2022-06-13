@@ -2,14 +2,23 @@ import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link, useNavigate } from "react-router-dom";
+import { Toast } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../Navbar/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { auth, logInWithEmailAndPassword, logout } from "../../firebase";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { errorHandler } from "../../utils/databaseErrorHandler";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
+  const [showA, setShowA] = useState(true);
+
+  const toggleShowA = () => setShowA(!showA);
+
   // if(email.length)
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
@@ -72,6 +81,15 @@ export default function Login() {
             loginFormData?.password
           );
           // console.log("a==>", a.email);
+          toast.success("Login succesfully!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
           console.log("res", res);
           localStorage.setItem("Token", res.user.accessToken);
           localStorage.setItem("user", JSON.stringify(res));
@@ -270,6 +288,17 @@ export default function Login() {
         </Button>
       </Form>
       <Link to="/forgotpassword">ForgotPassword</Link>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
