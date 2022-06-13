@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Apicall } from "../Api/index";
@@ -47,7 +48,8 @@ export const Movie = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    signOut(auth);
+
+    logout(auth.currentUser);
     localStorage.removeItem("Token");
     localStorage.removeItem("user");
     navigate("/");

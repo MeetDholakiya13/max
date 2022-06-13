@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../Navbar/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { auth, logInWithEmailAndPassword } from "../../firebase";
+import { auth, logInWithEmailAndPassword, logout } from "../../firebase";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { errorHandler } from "../../utils/databaseErrorHandler";
 

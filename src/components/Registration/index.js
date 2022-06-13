@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../Navbar/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { auth, logInWithEmailAndPassword } from "../../firebase";
+import { auth, logInWithEmailAndPassword, logout } from "../../firebase";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { errorHandler } from "../../utils/databaseErrorHandler";
 import { sendEmailVerification, getAuth } from "firebase/auth";
@@ -75,7 +75,7 @@ export default function Login() {
           console.log("res", res);
 
           await sendEmailVerification(auth.currentUser);
-
+          logout(auth.currentUser);
           // localStorage.setItem("Token", a.user.accessToken);
           // localStorage.setItem("user", JSON.stringify(a));
           navigate("/");

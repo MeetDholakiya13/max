@@ -5,19 +5,20 @@ import { auth } from "../../firebase";
 
 function ForgotPassword() {
   const [email, setEmail] = useState();
+  const [err, setErr] = useState();
 
   const hanldeValidation = (data) => {
-    if (data) {
+    if (!data) {
+      setErr("Please fill email");
+      return false;
+    } else if (data) {
       const patternForEmail =
         /^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+/;
 
-      console.log("data::", data);
-      if (!data) {
-        // setErr({ field: "email", value: "Please fill email" });
-        return false;
-      } else if (data) {
+      if (data) {
+        console.log("data::", data);
         if (!patternForEmail?.test(data)) {
-          //   setErr({ field: "email", value: "Invalid email" });
+          setErr("Invalid email");
           return false;
         }
       }
@@ -25,8 +26,8 @@ function ForgotPassword() {
   };
   const handelSubmit = async (e) => {
     e.preventDefault();
-
-    await sendPasswordResetEmail(auth, email);
+    const a = hanldeValidation(email);
+    if (a) await sendPasswordResetEmail(auth, email);
   };
   return (
     <div>
@@ -40,10 +41,9 @@ function ForgotPassword() {
               setEmail(e.target.value);
             }}
           />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
+        {err}
+        <br />
 
         <Button variant="primary" type="submit" onClick={handelSubmit}>
           Submit
