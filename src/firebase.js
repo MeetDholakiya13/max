@@ -8,6 +8,7 @@ import {
   sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
+import { doc, onSnapshot } from "firebase/firestore";
 import {
   getFirestore,
   query,
@@ -46,7 +47,7 @@ const signInWithGoogle = async () => {
     if (docs.docs.length === 0) {
       await addDoc(collection(db, "users"), {
         uid: user.uid,
-        name: user.displayName,
+        title: user.displayName,
         authProvider: "google",
         email: user.email,
       });
@@ -78,6 +79,29 @@ const sendPasswordReset = async (email) => {
 const logout = () => {
   signOut(auth);
 };
+const AddData = async (title, todo) => {
+  try {
+    await addDoc(collection(db, "todo"), {
+      title: title,
+      // authProvider: "google",
+      todo: todo,
+    });
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
+
+const listenAllNotification = (callback) => {
+  const listenEssayQuery = query(collection(db, "todo"));
+  const essays = [];
+  return onSnapshot(listenEssayQuery, (querySnapshot) => {
+    querySnapshot.forEach((doc) => essays.push(doc.data()));
+    callback(essays);
+  });
+  // return essays;
+};
+
 export {
   auth,
   db,
@@ -87,4 +111,6 @@ export {
   logout,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  AddData,
+  listenAllNotification,
 };

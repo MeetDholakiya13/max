@@ -80,6 +80,7 @@ export default function Login() {
             loginFormData?.email,
             loginFormData?.password
           );
+          console.log("res", res);
           // console.log("a==>", a.email);
           toast.success("Login succesfully!", {
             position: "top-right",
@@ -90,10 +91,8 @@ export default function Login() {
             draggable: true,
             progress: undefined,
           });
-          console.log("res", res);
-          localStorage.setItem("Token", res.user.accessToken);
-          localStorage.setItem("user", JSON.stringify(res));
-          navigate("movie");
+
+          navigate("/movie");
         } catch (err) {
           console.log(
             "error=========================>",

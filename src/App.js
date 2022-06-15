@@ -8,80 +8,53 @@ import Login from "./components/Login/index";
 import Register from "./components/Registration/index";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import ForgotPassword from "./components/ForgotPassword";
-
+import Add from "./components/CRUD/add";
+import Data from "./components/CRUD/data";
+import Update from "./components/CRUD/Update";
+// import FatchData from "./components/CRUD/Fatch";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import { useAuthListener } from "./hooks/index";
-import { getAuth } from "firebase/auth";
-import { auth, logout } from "./firebase";
+// import { getAuth } from "firebase/auth";
+import { logout } from "./firebase";
+import { useAuthListener } from "./hooks/index";
+import Fatch from "./components/CRUD/Fatch";
 // import { , ProtectedRoute } from './Helpers/routes';
 
 // import ProtectedRoute from "./components/ProtectedRoute";
-import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 
-const PrivateRoute1 = (props) => {
-  // alert(auth);
-  const token = localStorage.getItem("Token");
+const PrivateRoute1 = ({ user, ...props }) => {
+  // const token = localStorage.getItem("Token");
 
-  if (!auth?.currentUser) {
+  console.log("user", user);
+
+  if (!user) {
     return props.children;
   } else {
-    toast.warn("you are alredy login", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    // alert("you are alredy login");
-
     return <Navigate to="/movie" />;
   }
 };
 
 function App() {
-  // const { user } = useAuthListener();
-  const auth = getAuth();
+  const { user } = useAuthListener();
 
-  // const navigate = useNavigate();
-
-  const PrivateRoute = (props) => {
-    // alert(auth);
-    const token = localStorage.getItem("Token");
-    // console.log("auth====>", auth);
-    if (auth?.currentUser) {
-      if (auth?.currentUser?.emailVerified) {
-        return props.children;
-      } else {
-        toast.warn("Veryfi your Email", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-
-        // alert("Veryfi your Email");
-        logout();
-        localStorage.removeItem("Token");
-        localStorage.removeItem("user");
-        return <Navigate to="/" />;
-      }
+  const PrivateRoute = ({ user, ...props }) => {
+    if (user) {
+      // if (user?.currentUser?.emailVerified) {
+      //   return props.children;
+      // } else {
+      //   toast.warn("Veryfi your Email");
+      //   logout();
+      //   localStorage.removeItem("Token");
+      //   localStorage.removeItem("user");
+      //   return <Navigate to="/" />;
+      // }
+      return props.children;
     } else {
-      toast.warn("Login First", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      // toast.warn("login first");
       return <Navigate to="/" />;
     }
+    // return props.children;
   };
   return (
     <div className="App">
@@ -92,7 +65,7 @@ function App() {
             <Route
               path="/"
               element={
-                <PrivateRoute1>
+                <PrivateRoute1 user={user}>
                   <Login />
                 </PrivateRoute1>
               }
@@ -100,7 +73,7 @@ function App() {
             <Route
               path="/forgotpassword"
               element={
-                <PrivateRoute1>
+                <PrivateRoute1 user={user}>
                   <ForgotPassword />
                 </PrivateRoute1>
               }
@@ -109,7 +82,7 @@ function App() {
             <Route
               path="/register"
               element={
-                <PrivateRoute1>
+                <PrivateRoute1 user={user}>
                   <Register />
                 </PrivateRoute1>
               }
@@ -117,15 +90,19 @@ function App() {
             <Route
               path="/details"
               element={
-                <PrivateRoute>
+                <PrivateRoute user={user}>
                   <Details />
                 </PrivateRoute>
               }
             />
+            <Route path="/add" element={<Add />} />
+            <Route path="/list" element={<Fatch />} />
+            <Route path="/update" element={<Update />} />
+            <Route path="/data" element={<Data />} />
             <Route
               path="/movie"
               element={
-                <PrivateRoute>
+                <PrivateRoute user={user}>
                   <Movie />
                 </PrivateRoute>
               }
@@ -144,8 +121,6 @@ function App() {
         draggable
         pauseOnHover
       />
-      {/* Same as */}
-      <ToastContainer />
     </div>
   );
 }

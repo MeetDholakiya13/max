@@ -8,7 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { logout, auth } from "../../firebase";
 import Header from "../Navbar/Header";
 import { signOut } from "firebase/auth";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Navbar } from "react-bootstrap";
 import { useUserAuth } from "../../context/UserAuthContext";
 
 import Details from "./Details";
@@ -87,6 +87,7 @@ export const Movie = () => {
 
   return (
     <>
+      <Header />
       <button type="button" onClick={handleSubmit} className="btn btn-primary">
         signOut
       </button>
