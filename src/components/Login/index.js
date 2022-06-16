@@ -44,7 +44,7 @@ export default function Login() {
       const patternForEmail =
         /^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+/;
 
-      console.log("data::", data);
+      // console.log("data::", data);
       if (!data?.email) {
         setErr({ field: "email", value: "Please fill email" });
         return false;
@@ -70,7 +70,7 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const isValidForm = hanldeValidation(loginFormData);
-    console.log("isValidForm::", isValidForm);
+    // console.log("isValidForm::", isValidForm);
 
     if (isValidForm) {
       // console.log(password, "passwoerddaaaaaaaaaaaaaaa", errpassword);
@@ -80,7 +80,7 @@ export default function Login() {
             loginFormData?.email,
             loginFormData?.password
           );
-          console.log("res", res);
+          // console.log("res", res);
           // console.log("a==>", a.email);
           toast.success("Login succesfully!", {
             position: "top-right",
@@ -94,10 +94,10 @@ export default function Login() {
 
           navigate("/movie");
         } catch (err) {
-          console.log(
-            "error=========================>",
-            errorHandler(err?.code)
-          );
+          // console.log(
+          //   "error=========================>",
+          //   errorHandler(err?.code)
+          // );
           setError(errorHandler(err?.code));
           // switch (err.code) {
           //   case "auth/wrong-password":
@@ -237,10 +237,10 @@ export default function Login() {
       } else {
         setPasswordError("Incorrect Password ");
         setPassword("");
-        console.log(password, "passwoerdddddddddd");
+        // console.log(password, "passwoerdddddddddd");
       }
     } else {
-      console.log("incorrect username and password");
+      // console.log("incorrect username and password");
       return false;
     }
   };
@@ -250,7 +250,7 @@ export default function Login() {
       <Header />
       <Form>
         <Form.Group size="lg" controlId="email">
-          {console.log("Hello login")}
+          {/* {console.log("Hello login")} */}
           <h1>Login.....</h1>
           <Form.Label>Email</Form.Label>
           <Form.Control

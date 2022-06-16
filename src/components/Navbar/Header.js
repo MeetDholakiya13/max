@@ -26,10 +26,6 @@ export default function Header() {
     }
   };
 
-  const toggleNav = () => {
-    setNavVisibility(!isNavVisible);
-  };
-
   return (
     <Navbar bg="light" variant="light">
       <Container>
@@ -45,6 +41,9 @@ export default function Header() {
           </Nav.Link>
           <Nav.Link as={Link} to={"/movie"}>
             Movie
+          </Nav.Link>
+          <Nav.Link as={Link} to={"/data"}>
+            Data
           </Nav.Link>
         </Nav>
       </Container>

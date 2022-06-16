@@ -10,13 +10,13 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 import ForgotPassword from "./components/ForgotPassword";
 import Add from "./components/CRUD/add";
 import Data from "./components/CRUD/data";
-import Update from "./components/CRUD/Update";
+
 // import FatchData from "./components/CRUD/Fatch";
-import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 // import { useAuthListener } from "./hooks/index";
 // import { getAuth } from "firebase/auth";
-import { logout } from "./firebase";
+
 import { useAuthListener } from "./hooks/index";
 import Fatch from "./components/CRUD/Fatch";
 // import { , ProtectedRoute } from './Helpers/routes';
@@ -26,7 +26,7 @@ import Fatch from "./components/CRUD/Fatch";
 const PrivateRoute1 = ({ user, ...props }) => {
   // const token = localStorage.getItem("Token");
 
-  console.log("user", user);
+  // console.log("user", user);
 
   if (!user) {
     return props.children;
@@ -35,27 +35,17 @@ const PrivateRoute1 = ({ user, ...props }) => {
   }
 };
 
+const PrivateRoute = ({ user, ...props }) => {
+  if (user) {
+    console.log("props.children", props.children);
+    return props.children;
+  } else {
+    return <Navigate to="/" />;
+  }
+};
 function App() {
   const { user } = useAuthListener();
 
-  const PrivateRoute = ({ user, ...props }) => {
-    if (user) {
-      // if (user?.currentUser?.emailVerified) {
-      //   return props.children;
-      // } else {
-      //   toast.warn("Veryfi your Email");
-      //   logout();
-      //   localStorage.removeItem("Token");
-      //   localStorage.removeItem("user");
-      //   return <Navigate to="/" />;
-      // }
-      return props.children;
-    } else {
-      // toast.warn("login first");
-      return <Navigate to="/" />;
-    }
-    // return props.children;
-  };
   return (
     <div className="App">
       <BrowserRouter>
@@ -96,9 +86,23 @@ function App() {
               }
             />
             <Route path="/add" element={<Add />} />
-            <Route path="/list" element={<Fatch />} />
-            <Route path="/update" element={<Update />} />
-            <Route path="/data" element={<Data />} />
+            <Route
+              path="/list"
+              element={
+                <PrivateRoute user={user}>
+                  <Fatch />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/data"
+              element={
+                <PrivateRoute user={user}>
+                  <Data />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/movie"
               element={
@@ -110,17 +114,6 @@ function App() {
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 }
