@@ -8,6 +8,8 @@ import Login from "./components/Login/index";
 import Register from "./components/Registration/index";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import ForgotPassword from "./components/ForgotPassword";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Data from "./components/CRUD/data";
 
@@ -26,22 +28,54 @@ import { useAuthListener } from "./hooks/index";
 const PrivateRoute1 = ({ user, ...props }) => {
   // const token = localStorage.getItem("Token");
 
-  // console.log("user", user);
+  console.log("user", user);
 
   if (!user) {
     return props.children;
   } else {
+    toast("you are alredy login ", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     return <Navigate to="/movie" />;
   }
 };
 
 const PrivateRoute = ({ user, ...props }) => {
   if (user) {
-    return props.children;
+    if (user?.emailVerified) {
+      return props.children;
+    } else {
+      toast("verify your account ", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return <Navigate to="/" />;
+    }
   } else {
+    toast("Login first ", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     return <Navigate to="/" />;
   }
 };
+
 function App() {
   const { user } = useAuthListener();
 
@@ -103,6 +137,17 @@ function App() {
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
