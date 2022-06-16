@@ -13,6 +13,7 @@ import {
   where,
   query,
 } from "firebase/firestore";
+import Header from "../Navbar/Header";
 
 function Data() {
   const [newTitle, setNewTitle] = useState("");
@@ -30,6 +31,8 @@ function Data() {
       todo: newTodo,
       email: ab2,
     });
+    setNewTodo("");
+    setNewTitle("");
     setNewTodoSet("true");
   };
 
@@ -46,6 +49,8 @@ function Data() {
       .then(() => console.log("success"))
       .catch((error) => console.log("error", error));
     setNewTodoSet("true");
+    setNewTodo("");
+    setNewTitle("");
   };
 
   const deleteTodo = async (id) => {
@@ -83,8 +88,12 @@ function Data() {
   }, [newTodoSet]);
   return (
     <div className="App">
+      <Header />
       <input
         placeholder="title..."
+        // defaultValue=""
+        value={newTitle}
+        setNewTodoS
         onChange={(event) => {
           setNewTitle(event.target.value);
         }}
@@ -92,6 +101,7 @@ function Data() {
       <input
         type="text"
         placeholder="todo"
+        value={newTodo}
         onChange={(event) => {
           setNewTodo(event.target.value);
         }}

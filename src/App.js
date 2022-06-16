@@ -8,7 +8,7 @@ import Login from "./components/Login/index";
 import Register from "./components/Registration/index";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import ForgotPassword from "./components/ForgotPassword";
-import Add from "./components/CRUD/add";
+
 import Data from "./components/CRUD/data";
 
 // import FatchData from "./components/CRUD/Fatch";
@@ -18,7 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 // import { getAuth } from "firebase/auth";
 
 import { useAuthListener } from "./hooks/index";
-import Fatch from "./components/CRUD/Fatch";
+
 // import { , ProtectedRoute } from './Helpers/routes';
 
 // import ProtectedRoute from "./components/ProtectedRoute";
@@ -37,7 +37,6 @@ const PrivateRoute1 = ({ user, ...props }) => {
 
 const PrivateRoute = ({ user, ...props }) => {
   if (user) {
-    console.log("props.children", props.children);
     return props.children;
   } else {
     return <Navigate to="/" />;
@@ -68,7 +67,6 @@ function App() {
                 </PrivateRoute1>
               }
             />
-
             <Route
               path="/register"
               element={
@@ -82,15 +80,6 @@ function App() {
               element={
                 <PrivateRoute user={user}>
                   <Details />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/add" element={<Add />} />
-            <Route
-              path="/list"
-              element={
-                <PrivateRoute user={user}>
-                  <Fatch />
                 </PrivateRoute>
               }
             />

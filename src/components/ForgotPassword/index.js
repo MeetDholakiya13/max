@@ -17,35 +17,55 @@ function ForgotPassword() {
   const [err, setErr] = useState();
 
   const hanldeValidation = (data) => {
-    if (!data) {
-      setErr("Please fill email");
-      return false;
-    } else if (data) {
+    console.log("data", data);
+
+    if (data) {
       const patternForEmail =
         /^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+/;
 
-      if (data) {
-        console.log("data::", data);
-        if (!patternForEmail?.test(data)) {
-          setErr("Invalid email");
-          return false;
-        }
+      const isValidEmail = patternForEmail.test(data);
+
+      if (!isValidEmail) {
+        setErr("Invalid email");
       }
+
+      return isValidEmail;
     }
+
+    setErr("Please fill email");
+    return false;
+    // if (!data) {
+    //   setErr("Please fill email");
+    //   return false;
+    // } else {
+    //   const patternForEmail =
+    //     /^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+/;
+
+    //   console.log("data::", data);
+    //   if (!patternForEmail.test(data)) {
+    //     setErr("Invalid email");
+    //     return false;
+    //   }
+    //   return true;
+    // }
   };
   const handelSubmit = async (e) => {
     e.preventDefault();
     const a = hanldeValidation(email);
-    if (a) await sendPasswordResetEmail(auth, email);
-    toast("Link was send", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    console.log("hello1111", a);
+    if (a) {
+      await sendPasswordResetEmail(auth, email);
+      console.log("hello");
+      toast("Link was send", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
     setTimeout(() => {
       navigate("/");
       // console.log('Hello, World!')
@@ -90,16 +110,19 @@ function ForgotPassword() {
           back to login
         </Button>
       </Form>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
-  <Toast show={showA} onClose={toggleShowA}>
-    <Toast.Header>
-      <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-      <strong className="me-auto">Bootstrap</strong>
-      <small>11 mins ago</small>
-    </Toast.Header>
-    <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
-  </Toast>;
 }
 
 export default ForgotPassword;
