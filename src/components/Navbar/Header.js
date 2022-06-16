@@ -40,12 +40,6 @@ export default function Header() {
             <Nav.Link as={Link} to={"/register"}>
               Register
             </Nav.Link>
-            <Nav.Link as={Link} to={"/movie"}>
-              Movie
-            </Nav.Link>
-            <Nav.Link as={Link} to={"/data"}>
-              Data
-            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
