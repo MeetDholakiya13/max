@@ -249,6 +249,8 @@ export default function Login() {
       return false;
     }
     setIsLoading(false);
+    setLoaginFormData("Email", " ");
+    setLoaginFormData("password", " ");
   };
   if (isLoading) {
     return (
