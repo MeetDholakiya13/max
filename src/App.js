@@ -28,25 +28,18 @@ import { useAuthListener } from "./hooks/index";
 const PrivateRoute1 = ({ user, ...props }) => {
   // const token = localStorage.getItem("Token");
 
-  console.log("user", user);
+  console.log("userpublocroute", user);
 
   if (!user) {
     return props.children;
   } else {
-    toast("you are alredy login ", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
     return <Navigate to="/movie" />;
   }
 };
 
 const PrivateRoute = ({ user, ...props }) => {
+  console.log("userprivateroute", user);
+
   if (user) {
     if (user?.emailVerified) {
       return props.children;
@@ -63,15 +56,6 @@ const PrivateRoute = ({ user, ...props }) => {
       return <Navigate to="/" />;
     }
   } else {
-    toast("Login first ", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
     return <Navigate to="/" />;
   }
 };

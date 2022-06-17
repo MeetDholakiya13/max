@@ -18,6 +18,7 @@ import {
 export default function Header() {
   const { user } = useAuthListener();
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 

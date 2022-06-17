@@ -14,10 +14,13 @@ import {
   query,
 } from "firebase/firestore";
 import Header from "../Navbar/Header";
+import { isSet } from "lodash";
 
 function Data() {
   const [newTitle, setNewTitle] = useState("");
   const [newTodo, setNewTodo] = useState("");
+  const [newTitle1, setNewTitle1] = useState("");
+  const [newTodo1, setNewTodo1] = useState("");
   const [newTodoSet, setNewTodoSet] = useState("false");
 
   const ab = localStorage.getItem("user");
@@ -25,15 +28,36 @@ function Data() {
   const ab1 = [ab][0].split(`"email":`)[1].split(`"emailVerified"`)[0].trim();
   const ab2 = ab1.split(",")[0].trim();
   const usersCollectionRef = collection(db, "todo");
+  const validate = (title, todo) => {
+    console.log("title", title);
+    console.log("todo", todo);
+
+    if (!title && !todo) {
+      console.log("true", true);
+      // alert("hello");
+      return false;
+    } else {
+      // alert("hii");
+
+      return true;
+    }
+  };
+
   const createUser = async () => {
-    await addDoc(usersCollectionRef, {
-      title: newTitle,
-      todo: newTodo,
-      email: ab2,
-    });
-    setNewTodo("");
-    setNewTitle("");
-    setNewTodoSet("true");
+    const result = validate(newTitle, newTodo);
+    // console.log("result", result);
+    if (result) {
+      await addDoc(usersCollectionRef, {
+        title: newTitle,
+        todo: newTodo,
+        email: ab2,
+      });
+      setNewTodo("");
+      setNewTitle("");
+      setNewTodoSet("true");
+    } else {
+      alert("please enter data");
+    }
   };
 
   const updateTodo = async (id) => {
@@ -121,7 +145,7 @@ function Data() {
                   placeholder="todo"
                   defaultValue={val.data.title}
                   onChange={(event) => {
-                    setNewTitle(event.target.value);
+                    setNewTitle1(event.target.value);
                   }}
                 />{" "}
               </>{" "}
@@ -131,7 +155,7 @@ function Data() {
                 placeholder="todo"
                 defaultValue={val.data.todo}
                 onChange={(event) => {
-                  setNewTodo(event.target.value);
+                  setNewTodo1(event.target.value);
                 }}
               />
               <button

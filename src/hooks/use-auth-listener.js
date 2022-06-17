@@ -21,6 +21,7 @@ function useAuthListener() {
         setUser(null);
       }
     });
+
     return () => listener && listener();
   }, []);
   return { user };
