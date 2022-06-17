@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { Toast } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -86,7 +87,6 @@ export default function Login() {
           // console.log("res", res);
           // console.log("a==>", a.email);
 
-          setIsLoading(false);
           toast.success("Login succesfully!", {
             position: "top-right",
             autoClose: 5000,
@@ -248,11 +248,12 @@ export default function Login() {
       // console.log("incorrect username and password");
       return false;
     }
+    setIsLoading(false);
   };
   if (isLoading) {
     return (
       <div>
-        <h1>Loading</h1>
+        <Spinner animation="border" variant="primary" />
       </div>
     );
   } else {
