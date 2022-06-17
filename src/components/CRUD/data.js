@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import Header from "../Navbar/Header";
 import { isSet } from "lodash";
+import { collapseToast } from "react-toastify";
 
 function Data() {
   const [newTitle, setNewTitle] = useState("");
@@ -61,20 +62,20 @@ function Data() {
   };
 
   const updateTodo = async (id) => {
-    console.log("id", id);
+    console.log("newTodo1", newTodo1);
+    console.log("newTitle1", newTitle1);
+
     const userDoc = doc(db, "todo", id);
 
     console.log("userDoc", userDoc);
     // await updateDoc(userDoc, newFields);
     await updateDoc(doc(db, "todo", id), {
-      title: newTitle,
-      todo: newTodo,
+      title: newTitle1,
+      todo: newTodo1,
     })
       .then(() => console.log("success"))
       .catch((error) => console.log("error", error));
     setNewTodoSet("true");
-    setNewTodo("");
-    setNewTitle("");
   };
 
   const deleteTodo = async (id) => {
