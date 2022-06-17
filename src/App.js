@@ -10,6 +10,7 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 import ForgotPassword from "./components/ForgotPassword";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PageNotFound from "./Pages/PageNotFound";
 
 import Data from "./components/CRUD/data";
 
@@ -110,6 +111,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="*" element={<PageNotFound />} />
             <Route
               path="/movie"
               element={
