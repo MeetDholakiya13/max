@@ -21,6 +21,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [errpassword, setPasswordError] = useState();
   const [err, setErr] = useState({ field: "", value: "" });
+  const [isLoading, setIsLoading] = useState(false);
 
   const [registerData, setRegisterData] = useState({
     email: "",
@@ -78,6 +79,7 @@ export default function Login() {
 
           await sendEmailVerification(auth.currentUser);
           logout(auth.currentUser);
+
           toast.success("Registration successfully", {
             position: "top-right",
             autoClose: 5000,
@@ -241,62 +243,69 @@ export default function Login() {
       return false;
     }
   };
-
-  return (
-    <>
-      <div className="Register">
-        <Header />
-        <Form>
-          <Form.Group size="lg" controlId="email">
-            <h1>Register.....</h1>
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              autoFocus
-              type="text"
-              // value={email}
-              onChange={({ target }) => handleOnChange("email", target.value)}
-            />
-            {err?.field === "email" && <h3>{err?.value}</h3>}
-          </Form.Group>
-          <Form.Group size="lg" controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              // value={password}
-              onChange={({ target }) =>
-                handleOnChange("password", target?.value)
-              }
-            />
-            {/* <h3> {errpassword}</h3> */}
-            {err?.field === "password" && <h3>{err?.value}</h3>}
-          </Form.Group>
-          {/* <h1>{err}</h1> */}
-          {error && error?.message ? (
-            <p className="text-danger">{error?.message}</p>
-          ) : (
-            ""
-          )}
-          <Button
-            block="true"
-            size="lg"
-            type="button"
-            onClick={(e) => handleSubmit(e)}
-          >
-            Registration
-          </Button>
-        </Form>
+  if (isLoading) {
+    return (
+      <div>
+        <h1>Loading</h1>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-    </>
-  );
+    );
+  } else {
+    return (
+      <>
+        <div className="Register">
+          <Header />
+          <Form>
+            <Form.Group size="lg" controlId="email">
+              <h1>Register.....</h1>
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                autoFocus
+                type="text"
+                // value={email}
+                onChange={({ target }) => handleOnChange("email", target.value)}
+              />
+              {err?.field === "email" && <h3>{err?.value}</h3>}
+            </Form.Group>
+            <Form.Group size="lg" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                // value={password}
+                onChange={({ target }) =>
+                  handleOnChange("password", target?.value)
+                }
+              />
+              {/* <h3> {errpassword}</h3> */}
+              {err?.field === "password" && <h3>{err?.value}</h3>}
+            </Form.Group>
+            {/* <h1>{err}</h1> */}
+            {error && error?.message ? (
+              <p className="text-danger">{error?.message}</p>
+            ) : (
+              ""
+            )}
+            <Button
+              block="true"
+              size="lg"
+              type="button"
+              onClick={(e) => handleSubmit(e)}
+            >
+              Registration
+            </Button>
+          </Form>
+        </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </>
+    );
+  }
 }

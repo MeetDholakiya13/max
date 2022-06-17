@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 // import { getAuth } from "firebase/auth";
 
 import { useAuthListener } from "./hooks/index";
+import { useState } from "react";
 
 // import { , ProtectedRoute } from './Helpers/routes';
 
@@ -28,8 +29,6 @@ import { useAuthListener } from "./hooks/index";
 
 const PrivateRoute1 = ({ user, ...props }) => {
   // const token = localStorage.getItem("Token");
-
-  console.log("userpublocroute", user);
 
   if (!user) {
     return props.children;
@@ -39,9 +38,11 @@ const PrivateRoute1 = ({ user, ...props }) => {
 };
 
 const PrivateRoute = ({ user, ...props }) => {
-  console.log("userprivateroute", user);
+  // console.log("userpublocroute", isLoading);
+  // console.log("userprivateroute", user);
 
   if (user) {
+    console.log("user", user);
     if (user?.emailVerified) {
       return props.children;
     } else {

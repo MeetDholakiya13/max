@@ -18,10 +18,12 @@ export default function Login() {
   const [showA, setShowA] = useState(true);
 
   const toggleShowA = () => setShowA(!showA);
+  const [isLoading, setIsLoading] = useState(false);
 
   // if(email.length)
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
+
   const [error, setError] = useState("");
   const [errpassword, setPasswordError] = useState();
   const [err, setErr] = useState({ field: "", value: "" });
@@ -75,6 +77,7 @@ export default function Login() {
     if (isValidForm) {
       // console.log(password, "passwoerddaaaaaaaaaaaaaaa", errpassword);
       if (!errpassword) {
+        setIsLoading(true);
         try {
           const res = await login(
             loginFormData?.email,
@@ -82,6 +85,8 @@ export default function Login() {
           );
           // console.log("res", res);
           // console.log("a==>", a.email);
+
+          setIsLoading(false);
           toast.success("Login succesfully!", {
             position: "top-right",
             autoClose: 5000,
@@ -244,60 +249,69 @@ export default function Login() {
       return false;
     }
   };
-
-  return (
-    <div className="Login">
-      <Header />
-      <Form>
-        <Form.Group size="lg" controlId="email">
-          {/* {console.log("Hello login")} */}
-          <h1>Login.....</h1>
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            autoFocus
-            type="text"
-            // value={email}
-            onChange={({ target }) => handleOnChange("email", target.value)}
-          />
-          {err?.field === "email" && <h3>{err?.value}</h3>}
-        </Form.Group>
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            // value={password}
-            onChange={({ target }) => handleOnChange("password", target?.value)}
-          />
-          {/* <h3> {errpassword}</h3> */}
-          {err?.field === "password" && <h3>{err?.value}</h3>}
-        </Form.Group>
-        {/* <h1>{err}</h1> */}
-        {error && error?.message ? (
-          <p className="text-danger">{error?.message}</p>
-        ) : (
-          ""
-        )}
-        <Button
-          block="true"
-          size="lg"
-          type="button"
-          onClick={(e) => handleSubmit(e)}
-        >
-          Login
-        </Button>
-      </Form>
-      <Link to="/forgotpassword">ForgotPassword</Link>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-    </div>
-  );
+  if (isLoading) {
+    return (
+      <div>
+        <h1>Loading</h1>
+      </div>
+    );
+  } else {
+    return (
+      <div className="Login">
+        <Header />
+        <Form>
+          <Form.Group size="lg" controlId="email">
+            {/* {console.log("Hello login")} */}
+            <h1>Login.....</h1>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              autoFocus
+              type="text"
+              // value={email}
+              onChange={({ target }) => handleOnChange("email", target.value)}
+            />
+            {err?.field === "email" && <h3>{err?.value}</h3>}
+          </Form.Group>
+          <Form.Group size="lg" controlId="password">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              // value={password}
+              onChange={({ target }) =>
+                handleOnChange("password", target?.value)
+              }
+            />
+            {/* <h3> {errpassword}</h3> */}
+            {err?.field === "password" && <h3>{err?.value}</h3>}
+          </Form.Group>
+          {/* <h1>{err}</h1> */}
+          {error && error?.message ? (
+            <p className="text-danger">{error?.message}</p>
+          ) : (
+            ""
+          )}
+          <Button
+            block="true"
+            size="lg"
+            type="button"
+            onClick={(e) => handleSubmit(e)}
+          >
+            Login
+          </Button>
+        </Form>
+        <Link to="/forgotpassword">ForgotPassword</Link>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </div>
+    );
+  }
 }

@@ -7,8 +7,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function useAuthListener() {
   const auth = getAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   useEffect(() => {
+    setIsLoading(true);
     const listener = onAuthStateChanged(auth, (authUser) => {
       console.log("authUser", authUser);
       if (authUser && authUser?.emailVerified) {
@@ -20,10 +22,11 @@ function useAuthListener() {
         localStorage.removeItem("user");
         setUser(null);
       }
+      setIsLoading(false);
     });
 
     return () => listener && listener();
   }, []);
-  return { user };
+  return { user, isLoading };
 }
 export default useAuthListener;
